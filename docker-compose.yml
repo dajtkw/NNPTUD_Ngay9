@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # MongoDB service
+  mongodb:
+    image: mongo:6
+    container_name: nnptud-c5-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: NNPTUD-C5
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - nnptud-network
+
+  # Node.js application
+  app:
+    build: .
+    container_name: nnptud-c5-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/NNPTUD-C5?authSource=admin
+      PORT: 3000
+    depends_on:
+      - mongodb
+    networks:
+      - nnptud-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm start
+
+volumes:
+  mongodb_data:
+
+networks:
+  nnptud-network:
+    driver: bridge

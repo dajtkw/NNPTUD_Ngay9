@@ -1,0 +1,48 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Runtime data
+logs
+*.log
+pids
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage
+.nyc_output
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Git
+.git
+.gitignore
+
+# Temporary files
+tmp
+temp
+
+# Build output
+dist
+build
