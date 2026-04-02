@@ -17,6 +17,7 @@ module.exports = {
             if (result.exp * 1000 > Date.now()) {
                 let user = await userController.FindUserById(result.id);
                 if (user) {
+                    await user.populate('role');
                     req.user = user
                     next();
                 } else {
@@ -31,6 +32,9 @@ module.exports = {
     },
     checkRole: function (...requiredRole) {
         return function (req, res, next) {
+            if (!req.user || !req.user.role) {
+                return res.status(403).send("ban khong co quyen")
+            }
             let currentRole = req.user.role.name;
             if (requiredRole.includes(currentRole)) {
                 next();

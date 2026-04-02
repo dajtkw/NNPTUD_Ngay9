@@ -11,7 +11,9 @@ let mongoose = require('mongoose')
 let cartModel = require('../schemas/carts')
 
 router.post('/register', RegisterValidator, validatedResult, async function (req, res, next) {
+    let session = await mongoose.startSession();
     try {
+        session.startTransaction();
         let { username, password, email } = req.body;
         let newUser = await userController.CreateAnUser(
             username, password, email, '69b2763ce64fe93ca6985b56'
@@ -19,11 +21,15 @@ router.post('/register', RegisterValidator, validatedResult, async function (req
         let newCart = new cartModel({
             user: newUser._id
         })
-        await newCart.save();
+        await newCart.save({ session });
         await newCart.populate('user');
+        await session.commitTransaction();
+        session.endSession();
         res.send(newCart)
     } catch (error) {
-        res.status(404).send(error.message)
+        await session.abortTransaction();
+        session.endSession();
+        res.status(404).send(error.message);
     }
 })
 router.post('/login', async function (req, res, next) {

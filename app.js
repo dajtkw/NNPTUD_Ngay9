@@ -29,7 +29,7 @@ app.use('/api/v1/categories', require('./routes/categories'))
 app.use('/api/v1/roles', require('./routes/roles'))
 app.use('/api/v1/upload', require('./routes/upload'))
 app.use('/api/v1/messages', require('./routes/messages'))
-mongoose.connect('mongodb://admin:password123@localhost:27017/NNPTUD-C5?authSource=admin', {
+mongoose.connect('mongodb://localhost:27017/NNPTUD-C5?replicaSet=rs0', {
   serverSelectionTimeoutMS: 5000
 }).catch(err => {
   console.log('MongoDB connection error (continuing without DB):', err.message);

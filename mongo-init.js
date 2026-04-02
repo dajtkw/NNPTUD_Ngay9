@@ -1,7 +1,7 @@
 // MongoDB initialization script
 // This script runs when MongoDB container starts for the first time
 
-// Create database and user
+// Create database 
 db = db.getSiblingDB('NNPTUD-C5');
 
 // Create collections
@@ -13,6 +13,7 @@ db.createCollection('roles');
 db.createCollection('inventories');
 db.createCollection('payments');
 db.createCollection('reservations');
+db.createCollection('messages');
 
 // Create indexes
 db.users.createIndex({ email: 1 }, { unique: true });
